@@ -12,7 +12,7 @@ read -p "Pleas enter the the new password for the DB user" MYSQL_DB_PASSWORD
 read -p "Pleas enter the the server typre [master|slave]("0" for aborting zone creation)" type
 
 # Install packages
-apt update && apt install mariadb-client mariadb-server pdns-server pdns-backend-mysql
+apt update && apt install -y mariadb-client mariadb-server pdns-server pdns-backend-mysql
 
 # Setup mariadb
 apt -y install expect
