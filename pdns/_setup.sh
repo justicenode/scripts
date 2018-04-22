@@ -16,7 +16,6 @@ apt update && apt install -y mariadb-client mariadb-server pdns-server pdns-back
 
 # Setup mariadb
 apt -y install expect
-// Not required in actual script
 # Set password
 SECURE_MYSQL=$(expect -c "
 set timeout 10
@@ -84,7 +83,7 @@ do
 		# Reset Zone
 		sed -i -e "s/$domain/example.com/g" ./slave.sql
 	else
-		else 	"Wronge server type (`0` for aborting zone creation)"
+		echo "Wronge server type (`0` for aborting zone creation)"
 		read -p "Pleas enter the the server typre [master|slave]" type
 	fi
 done
