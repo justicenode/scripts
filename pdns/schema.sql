@@ -92,4 +92,3 @@ PRIMARY KEY (id)
 ) Engine=InnoDB CHARACTER SET 'latin1';
 
 CREATE UNIQUE INDEX namealgoindex ON tsigkeys(name, algorithm);
-quit;
