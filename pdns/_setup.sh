@@ -112,13 +112,13 @@ then
     then
         # Edit Zone
         sed -i -e "s/example.com/$domain/g" ./slave.sql
-        sed -i -e "s/placeNS0.com/$masterip/g" ./master.sql
+        sed -i -e "s/placeNS0.com/$masterip/g" ./slave.sql
         # Create Zone
         mysql -u root -p$MYSQL_ROOT_PASSWORD < ./slave.sql
         echo "Slave zone IPv4 created for $domain"
         # Reset Zone
         sed -i -e "s/$domain/example.com/g" ./slave.sql
-        sed -i -e "s/$masterip/placeNS0.com/g" ./master.sql
+        sed -i -e "s/$masterip/placeNS0.com/g" ./slave.sql
     fi
 else
     echo "No zone created" 
