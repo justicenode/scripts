@@ -5,6 +5,7 @@ It will be able to setup a PowerDNS MASTER or SLAVE server on Debian 9 (testes o
 
 More fonction are in comming:<br />
 * Add zones only.
+* Add IPv6 zu script
 
 If you have a function you'd like to get, write it here:<br />
 *  ...
