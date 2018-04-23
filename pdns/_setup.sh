@@ -57,12 +57,6 @@ echo "$SECURE_MYSQL"
 apt -y purge expect
 apt -y autoremove 
 
-# Configure hosts file
-# Needed to ensure that name-server can see each other even if domain is not up
-echo "
-$masterip 	ns0.$domain
-$slaveip 	ns1.$domain" >> /etc/hosts
-
 # Move original conf to backup
 mv /etc/powerdns/pdns.conf /etc/powerdns/_orgi.pdns.conf
 # Create config files
@@ -99,10 +93,12 @@ do
 	then
 		# Edit Zone
 		sed -i -e "s/example.com/$domain/g" ./slave.sql
+		sed -i -e "s/placeNS0.com/$masterip/g" ./master.sql
 		# Create Zone
 		mysql -u root -$MYSQL_ROOT_PASSWORD < ./slave.sql
 		# Reset Zone
 		sed -i -e "s/$domain/example.com/g" ./slave.sql
+		sed -i -e "s/$masterip/placeNS0.com/g" ./master.sql
 	else
 		echo "Wronge server type (`0` for aborting zone creation)"
 		read -p "Pleas enter the the server typre [master|slave]: " type
