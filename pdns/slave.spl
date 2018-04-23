@@ -1,1 +1,2 @@
-INSERT INTO domains VALUES (1,'cl0ud.ca','10.10.10.42:53',1524317412,'SLAVE',NULL,'');
+use powerdns;
+INSERT INTO domains VALUES ('cl0ud.ca','10.10.10.42:53',1524317412,'SLAVE',NULL,'');
