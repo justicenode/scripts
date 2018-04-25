@@ -235,7 +235,7 @@ case $zone in
             read -p "Pleas enter the master IPv6: " masteripv6
             read -p "Pleas enter the slave IPv6: " slaveipv6
         fi
-        create-ipv4-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
+        create-ipv6-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
     ;;
     46)
         read -p "Pleas enter the domain: " domain
@@ -246,7 +246,7 @@ case $zone in
             read -p "Pleas enter the slave IPv6: " slaveipv6
         fi
         create-ipv4-zone $type $domain $masteripv4 $slaveipv4 $ARecord
-        create-ipv4-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
+        create-ipv6-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
     ;;
     ?)
     ;;
