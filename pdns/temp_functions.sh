@@ -144,4 +144,4 @@ function create-ipv6-zone {
         sed -i -e "s/$3/placeNS0v6.com/g" ./slavev6.sql
     fi
 }
-create-ipv4-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
+create-ipv6-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
