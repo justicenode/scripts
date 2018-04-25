@@ -92,7 +92,7 @@ function create-ipv4-zone {
         sed -i -e "s/placeNS1.com/$4/g" ./master.sql
         sed -i -e "s/placeA/$5/g" ./master.sql
         # Create Zone
-        mysql -u root -p$6 < ./master.sql
+        mysql -u root < ./master.sql
         echo "Mster zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./master.sql
@@ -105,14 +105,14 @@ function create-ipv4-zone {
         sed -i -e "s/example.com/$2/g" ./slave.sql
         sed -i -e "s/placeNS0.com/$3/g" ./slave.sql
         # Create Zone
-        mysql -u root -p$6 < ./slave.sql
+        mysql -u root < ./slave.sql
         echo "Slave zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./slave.sql
         sed -i -e "s/$3/placeNS0.com/g" ./slave.sql
     fi
 }
-create-ipv4-zone $type $domain $masterip $slaveip $ARecord $MYSQL_ROOT_PASSWORD
+create-ipv4-zone $type $domain $masterip $slaveip $ARecord
 
 function create-ipv6-zone {
     # Create zone
@@ -124,7 +124,7 @@ function create-ipv6-zone {
         sed -i -e "s/placeNS1v6.com/$4/g" ./masterv6.sql
         sed -i -e "s/placeAAAA/$5/g" ./masterv6.sql
         # Create Zone
-        mysql -u root -p$6 < ./masterv6.sql
+        mysql -u root < ./masterv6.sql
         echo "Mster zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./master.sql
@@ -137,11 +137,11 @@ function create-ipv6-zone {
         sed -i -e "s/example.com/$2/g" ./slavev6.sql
         sed -i -e "s/placeNS0v6.com/$3/g" ./slavev6.sql
         # Create Zone
-        mysql -u root -p$6 < ./slavev6.sql
+        mysql -u root < ./slavev6.sql
         echo "Slave zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./slavev6.sql
         sed -i -e "s/$3/placeNS0v6.com/g" ./slavev6.sql
     fi
 }
-create-ipv4-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord $MYSQL_ROOT_PASSWORD
+create-ipv4-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
