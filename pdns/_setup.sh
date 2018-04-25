@@ -114,29 +114,29 @@ function create-ipv4-zone {
     if [ $1 == "master" ]
     then
         # Edit Zone
-        sed -i -e "s/example.com/$2/g" ./master.sql
-        sed -i -e "s/placeNS0.com/$3/g" ./master.sql
-        sed -i -e "s/placeNS1.com/$4/g" ./master.sql
-        sed -i -e "s/placeA/$5/g" ./master.sql
+        sed -i -e "s/example.com/$2/g" ./masterv4.sql
+        sed -i -e "s/placeNS0.com/$3/g" ./masterv4.sql
+        sed -i -e "s/placeNS1.com/$4/g" ./masterv4.sql
+        sed -i -e "s/placeA/$5/g" ./masterv4.sql
         # Create Zone
-        mysql -u root < ./master.sql
+        mysql -u root < ./masterv4.sql
         echo "Mster zone IPv4 created for $2"
         # Reset Zone
-        sed -i -e "s/$2/example.com/g" ./master.sql
-        sed -i -e "s/$3/placeNS0.com/g" ./master.sql
-        sed -i -e "s/$4/placeNS1.com/g" ./master.sql
-        sed -i -e "s/$5/placeA/g" ./master.sql
+        sed -i -e "s/$2/example.com/g" ./masterv4.sql
+        sed -i -e "s/$3/placeNS0.com/g" ./masterv4.sql
+        sed -i -e "s/$4/placeNS1.com/g" ./masterv4.sql
+        sed -i -e "s/$5/placeA/g" ./masterv4.sql
     elif [ $1 == "slave" ]
     then
         # Edit Zone
-        sed -i -e "s/example.com/$2/g" ./slave.sql
-        sed -i -e "s/placeNS0.com/$3/g" ./slave.sql
+        sed -i -e "s/example.com/$2/g" ./slavev4.sql
+        sed -i -e "s/placeNS0.com/$3/g" ./slavev4.sql
         # Create Zone
-        mysql -u root < ./slave.sql
+        mysql -u root < ./slavev4.sql
         echo "Slave zone IPv4 created for $2"
         # Reset Zone
-        sed -i -e "s/$2/example.com/g" ./slave.sql
-        sed -i -e "s/$3/placeNS0.com/g" ./slave.sql
+        sed -i -e "s/$2/example.com/g" ./slavev4.sql
+        sed -i -e "s/$3/placeNS0.com/g" ./slavev4.sql
     fi
 }
 
@@ -153,7 +153,7 @@ function create-ipv6-zone {
         mysql -u root < ./masterv6.sql
         echo "Mster zone IPv4 created for $2"
         # Reset Zone
-        sed -i -e "s/$2/example.com/g" ./master.sql
+        sed -i -e "s/$2/example.com/g" ./masterv6.sql
         sed -i -e "s/$3/placeNS0v6.com/g" ./masterv6.sql
         sed -i -e "s/$4/placeNS1v6.com/g" ./masterv6.sql
         sed -i -e "s/$5/placeAAAA/g" ./masterv6.sql
