@@ -12,6 +12,7 @@ function HELP {
 }
 
 function package-install {
+    echo "start package-install" 
     # Install expect needed for interaction between script an UIs
     apt update && apt -y install expect
 
@@ -43,19 +44,21 @@ function package-install {
     echo "$SECURE_MYSQL"
     # Remove expect and its dependencies
     apt -y purge expect
-    apt -y autoremove 
+    apt -y autoremove
+    echo "finish package-install"
 }
 
 function create-configs {
     # Move original config to backup
-    mv /etc/powerdns/pdns.conf /etc/powerdns/_orgi.pdns.conf
+    mv -v /etc/powerdns/pdns.conf /etc/powerdns/_orgi.pdns.conf
     # Create config files
     rm /etc/powerdns/pdns.d/pdns.local.gmysql.conf
-    cp ./pdns.conf /etc/powerdns/pdns.conf
-    cp ./pdns.gmysql.conf /etc/powerdns/pdns.d/pdns.gmysql.conf
+    cp -v -f ./pdns.conf /etc/powerdns/pdns.conf
+    cp -v -f ./pdns.gmysql.conf /etc/powerdns/pdns.d/pdns.gmysql.conf
 }
 
 function configure-servicev4 {
+    echo "start configure-servicev4" 
     while [ $1 !=  "0" ]
     do
         if [ $1 = "MASTER" ]; then 
@@ -71,9 +74,11 @@ function configure-servicev4 {
             read -p "Pleas enter the the server typre [MASTER|SLAVE]: " 1
         fi
     done
+    echo "finish configure-servicev4"    
 }
 
 function configure-servicev6 {
+    echo "start configure-servicev6" 
     while [ $1 !=  "0" ]
     do
         if [ $1 = "MASTER" ]; then 
@@ -89,9 +94,11 @@ function configure-servicev6 {
             read -p "Pleas enter the the server typre [MASTER|SLAVE]: " 1
         fi
     done
+    echo "finish configure-servicev6"
 }
 
 function configure-BACKEND {
+    echo "start configure-BACKEND" 
     #Replace placeholder with DB credentials
     sed -i -e "s/powerdns_user/$1/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
     sed -i -e "s/powerdns_user_password/$2/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
@@ -99,9 +106,11 @@ function configure-BACKEND {
     sed -i -e "s/powerdns_user_password/$2/g" ./schema.sql
     # Create database
     mysql -u root < ./schema.sql
+    echo "finish configure-BACKEND"
 }
 
 function create-ipv4-zone {
+    echo "start create-ipv4-zone" 
     # Create zone
     if [ $1 = "master" ]
     then
@@ -130,9 +139,11 @@ function create-ipv4-zone {
         sed -i -e "s/$2/example.com/g" ./slavev4.sql
         sed -i -e "s/$3/placeNS0.com/g" ./slavev4.sql
     fi
+    echo "finish create-ipv4-zone"
 }
 
 function create-ipv6-zone {
+    echo "start create-ipv6-zone" 
     # Create zone
     if [ $1 = "master" ]
     then
@@ -161,6 +172,7 @@ function create-ipv6-zone {
         sed -i -e "s/$2/example.com/g" ./slavev6.sql
         sed -i -e "s/$3/placeNS0v6.com/g" ./slavev6.sql
     fi
+    echo "finish create-ipv6-zone" 
 }
 # Define Variable
 INSTALL="N/A"
