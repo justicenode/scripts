@@ -203,8 +203,8 @@ if [ $IPv4 = "YES" ] && [ $IPv6 = "YES" ]; then
     create-configs 
     configure-servicev4 $TYPE $slaveipv4 
     configure-servicev6 $TYPE $slaveipv6 
-    IPv4 = "NO"
-    IPv6 = "NO"
+    IPv4="NO"
+    IPv6="NO"
 fi  
 # Configure PDNS with IPv4 
 if [ $IPv4 = "YES" ]; then create-configs;configure-servicev4 $TYPE $slaveipv4; fi 
