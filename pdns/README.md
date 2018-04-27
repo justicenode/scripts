@@ -1,14 +1,14 @@
 This Script is still in development.<br />
-Not redy for usage!
+Not ready for usage!
 
-It will be able to setup a PowerDNS MASTER or SLAVE server on Debian 9 (testes only on Debian 9)<br />
+It will be able to setup a PowerDNS MASTER or SLAVE server on Debian 9 (tested only on Debian 9)<br />
 
-Fonction on which i'm working:<br />
+Function on which I'm working:<br />
 
 
-Added fonction are:<br />
+Added function are:<br />
 * Add zones only 
-* Add IPv6 zu script
+* Add IPv6 to script
 
 If you have a function you'd like to get, write it here:<br />
 * ...
