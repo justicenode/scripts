@@ -1,10 +1,10 @@
 #!/bin/bash
 function HELP {
     echo "
-        -i  [YES|NO]        Install packages for PDNS with MySQL
-        -4  [YES]           Configure PDNS Service with IPv4, if you don't want to configure IPv6 do not use -4
-        -6  [YES]           Configure PDNS Service with IPv6, if you don't want to configure IPv6 do not use -6
-        -b  [YES]           Configure PDNS backend and creating the DB, if you don't want to configure the backend do not use -b
+        -i                  Install packages for PDNS with MySQL
+        -4                  Configure PDNS Service with IPv4, if you don't want to configure IPv6 do not use -4
+        -6                  Configure PDNS Service with IPv6, if you don't want to configure IPv6 do not use -6
+        -b                  Configure PDNS BACKEND and creating the DB, if you don't want to configure the BACKEND do not use -b
         -t  [MASTER|SLAVE]  Configure Server as master or slave
         -z  [0|4|6|46]      Create no zone, Create a minimal IPv4 zone , Create a minimal IPv6 zone, Create a minimal IPv4/6 zone
         -h  Display this help
@@ -16,9 +16,9 @@ function package-install {
     apt update && apt -y install expect
 
     # Install packages 
-    # Automatically yes to installation and no to the pdns-mysql-backend configurator 
+    # Automatically yes to installation and no to the pdns-mysql-BACKEND configurator 
     install_packages=$(expect -c "
-    spawn apt install mariadb-client mariadb-server pdns-server pdns-backend-mysql
+    spawn apt install mariadb-client mariadb-server pdns-server pdns-BACKEND-mysql
     expect \"Do you want to continue? \"
     send \"y\r\"
     expect \"Package configuration\"
@@ -75,7 +75,7 @@ function configure-servicev4 {
             sed -i -e "s/1.1.1.1/127.0.0.1/g" /etc/powerdns/pdns.conf
             sed -i -e "s/master=yes/master=no/g" /etc/powerdns/pdns.conf
         else
-            echo "Wronge server type (`0` for aborting server configuration) or"
+            echo "Wronge server TYPE (`0` for aborting server configuration) or"
             read -p "Pleas enter the the server typre [MASTER|SLAVE]: " 1
         fi
     done
@@ -93,13 +93,13 @@ function configure-servicev6 {
             sed -i -e "s/2606:4700:4700::1111/::1/g" /etc/powerdns/pdns.conf
             sed -i -e "s/master=yes/master=no/g" /etc/powerdns/pdns.conf
         else
-            echo "Wronge server type (`0` for aborting server configuration) or"
+            echo "Wronge server TYPE (`0` for aborting server configuration) or"
             read -p "Pleas enter the the server typre [MASTER|SLAVE]: " 1
         fi
     done
 }
 
-function configure-backend {
+function configure-BACKEND {
     #Replace placeholder with DB credentials
     sed -i -e "s/powerdns_user/$1/g" /etc/powerdns/pdns.conf
     sed -i -e "s/powerdns_user_password/$2/g" /etc/powerdns/pdns.conf
@@ -170,10 +170,16 @@ function create-ipv6-zone {
         sed -i -e "s/$3/placeNS0v6.com/g" ./slavev6.sql
     fi
 }
+# Define Variable
+INSTALL="N/A"
+IPv4="N/A"
+IPv6="N/A"
+BACKEND="N/A"
+TYPE="N/A"
 
 while getopts ":i:4:6:b:t:z:" opt; do
     case $opt in
-        i) INSTALL="$OPTARG"
+        i) INSTALL="YES"
         ;;
         4)  IPv4="YES"
             read -p "Pleas enter the master IPv4: " masteripv4
@@ -183,11 +189,11 @@ while getopts ":i:4:6:b:t:z:" opt; do
             read -p "Pleas enter the master IPv6: " masteripv6
             read -p "Pleas enter the slave IPv6: " slaveipv6
         ;;
-        b)  backend="YES"
+        b)  BACKEND="YES"
             read -p "Pleas enter the your new DB user: " MYSQL_DB_USER
             read -p "Pleas enter the the new password for the DB user: " -r -s MYSQL_DB_PASSWORD && echo ""
         ;;
-        t)  type="$OPTARG"
+        t)  TYPE="$OPTARG"
         ;; 
         z)  zone="$OPTARG"
         ;;       
@@ -204,21 +210,17 @@ if [ $INSTALL = "YES" ]; then package-install; fi
 # Configure PDNS with IPv4 and IPv6
 if [ $IPv4 = "YES" && $IPv6 = "YES" ]; then  
     create-configs 
-    configure-servicev4 $type $slaveipv4 
-    configure-servicev6 $type $slaveipv6 
+    configure-servicev4 $TYPE $slaveipv4 
+    configure-servicev6 $TYPE $slaveipv6 
     IPv4 = "NO"
     IPv6 = "NO"
 fi  
 # Configure PDNS with IPv4 
-if [ $IPv4 = "YES" ]
-then
-   create-configs
-   configure-servicev4 $type $slaveipv4; 
-fi 
+if [ $IPv4 = "YES" ]; then create-configs;configure-servicev4 $TYPE $slaveipv4; fi 
 # Configure PDNS with IPv6
-if [ $IPv6 = "YES" ]; then create-configs; configure-servicev6 $type $slaveipv6; fi 
-# Configure MySQL backend and creating DB
-if [ backend = "YES" ]; then configure-backend $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
+if [ $IPv6 = "YES" ]; then create-configs; configure-servicev6 $TYPE $slaveipv6; fi
+# Configure MySQL BACKEND and creating DB
+if [ BACKEND = "YES" ]; then configure-BACKEND $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
 # Create zone
 case $zone in
     4)
@@ -229,7 +231,7 @@ case $zone in
             read -p "Pleas enter the master IPv4: " masteripv4
             read -p "Pleas enter the slave IPv4: " slaveipv4        
         fi
-        create-ipv4-zone $type $domain $masteripv4 $slaveipv4 $ARecord
+        create-ipv4-zone $TYPE $domain $masteripv4 $slaveipv4 $ARecord
     ;;
     6)
         read -p "Pleas enter the domain: " domain
@@ -239,7 +241,7 @@ case $zone in
             read -p "Pleas enter the master IPv6: " masteripv6
             read -p "Pleas enter the slave IPv6: " slaveipv6
         fi
-        create-ipv6-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
+        create-ipv6-zone $TYPE $domain $masterIPv6 $slaveIPv6 $AAAARecord 
     ;;
     46)
         read -p "Pleas enter the domain: " domain
@@ -249,8 +251,8 @@ case $zone in
             read -p "Pleas enter the master IPv6: " masteripv6
             read -p "Pleas enter the slave IPv6: " slaveipv6
         fi
-        create-ipv4-zone $type $domain $masteripv4 $slaveipv4 $ARecord
-        create-ipv6-zone $type $domain $masterIPv6 $slaveIPv6 $AAAARecord 
+        create-ipv4-zone $TYPE $domain $masteripv4 $slaveipv4 $ARecord
+        create-ipv6-zone $TYPE $domain $masterIPv6 $slaveIPv6 $AAAARecord 
     ;;
     ?)
     ;;
