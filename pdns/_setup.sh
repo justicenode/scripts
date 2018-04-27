@@ -52,7 +52,8 @@ function create-configs {
     # Move original config to backup
     mv -v /etc/powerdns/pdns.conf /etc/powerdns/_orgi.pdns.conf
     # Create config files
-    rm /etc/powerdns/pdns.d/pdns.local.gmysql.conf
+    rm -Rf /etc/powerdns/pdns.d/pdns.local.gmysql.conf
+    rm -Rf /etc/powerdns/pdns.d/bind.conf
     cp -v -f ./pdns.conf /etc/powerdns/pdns.conf
     cp -v -f ./pdns.gmysql.conf /etc/powerdns/pdns.d/pdns.gmysql.conf
 }
@@ -104,10 +105,10 @@ function configure-servicev6 {
 function configure-BACKEND {
     echo "start configure-BACKEND"
     #Replace placeholder with DB credentials
-    sed -i -e "s/user/$1/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
-    sed -i -e "s/password/$2/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
-    sed -i -e "s/user/$1/g" ./schema.sql
-    sed -i -e "s/password/$2/g" ./schema.sql
+    sed -i -e "s/USER/$1/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
+    sed -i -e "s/PASSWORD/$2/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
+    sed -i -e "s/USER/$1/g" ./schema.sql
+    sed -i -e "s/PASSWORD/$2/g" ./schema.sql
     # Create database
     mysql -u root < ./schema.sql
     echo "finish configure-BACKEND"
