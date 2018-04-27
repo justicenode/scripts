@@ -19,7 +19,7 @@ function package-install {
     # Install packages 
     # Automatically yes to installation and no to the pdns-mysql-backend configurator 
     export DEBIAN_FRONTEND=noninteractive
-    apt-get -yq install mariadb-client mariadb-server pdns-server pdns-backend-mysql
+    apt -yq install mariadb-client mariadb-server pdns-server pdns-backend-mysql
     export DEBIAN_FRONTEND=""
     
     # Setup mariadb
