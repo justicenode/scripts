@@ -16,9 +16,9 @@ function package-install {
     apt update && apt -y install expect
 
     # Install packages 
-    # Automatically yes to installation and no to the pdns-mysql-BACKEND configurator 
+    # Automatically yes to installation and no to the pdns-mysql-backend configurator 
     install_packages=$(expect -c "
-    spawn apt install mariadb-client mariadb-server pdns-server pdns-BACKEND-mysql
+    spawn apt install mariadb-client mariadb-server pdns-server pdns-backend-mysql
     expect \"Do you want to continue? \"
     send \"y\r\"
     expect \"Package configuration\"
