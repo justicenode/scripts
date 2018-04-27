@@ -50,6 +50,7 @@ function create-configs {
     # Move original config to backup
     mv /etc/powerdns/pdns.conf /etc/powerdns/_orgi.pdns.conf
     # Create config files
+    rm /etc/powerdns/pdns.d/pdns.local.gmysql.conf
     cp ./pdns.conf /etc/powerdns/pdns.conf
     cp ./pdns.gmysql.conf /etc/powerdns/pdns.d/pdns.gmysql.conf
 }
@@ -92,8 +93,8 @@ function configure-servicev6 {
 
 function configure-BACKEND {
     #Replace placeholder with DB credentials
-    sed -i -e "s/powerdns_user/$1/g" /etc/powerdns/pdns.conf
-    sed -i -e "s/powerdns_user_password/$2/g" /etc/powerdns/pdns.conf
+    sed -i -e "s/powerdns_user/$1/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
+    sed -i -e "s/powerdns_user_password/$2/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
     sed -i -e "s/powerdns_user/$1/g" ./schema.sql
     sed -i -e "s/powerdns_user_password/$2/g" ./schema.sql
     # Create database
