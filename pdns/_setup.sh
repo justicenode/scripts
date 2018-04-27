@@ -174,16 +174,16 @@ while getopts "i46bt:z:" opt; do
         i) INSTALL="YES"
         ;;
         4)  IPv4="YES"
-            read -p "Pleas enter the master IPv4: " masteripv4
-            read -p "Pleas enter the slave IPv4: " slaveipv4
+            read -p "Please enter the master IPv4: " masteripv4
+            read -p "Please enter the slave IPv4: " slaveipv4
         ;;
         6)  IPv6="YES"
-            read -p "Pleas enter the master IPv6: " masteripv6
-            read -p "Pleas enter the slave IPv6: " slaveipv6
+            read -p "Please enter the master IPv6: " masteripv6
+            read -p "Please enter the slave IPv6: " slaveipv6
         ;;
         b)  BACKEND="YES"
-            read -p "Pleas enter the your new DB user: " MYSQL_DB_USER
-            read -p "Pleas enter the the new password for the DB user: " -r -s MYSQL_DB_PASSWORD && echo ""
+            read -p "Please enter the your new DB user: " MYSQL_DB_USER
+            read -p "Please enter the the new password for the DB user: " -r -s MYSQL_DB_PASSWORD && echo ""
         ;;
         t)  TYPE="$OPTARG"
         ;; 
@@ -216,32 +216,32 @@ if [ $BACKEND = "YES" ]; then configure-BACKEND $MYSQL_DB_USER $MYSQL_DB_PASSWOR
 # Create zone
 case $zone in
     4)
-        read -p "Pleas enter the domain: " domain
-        read -p "Pleas enter the A Records IP: " ARecord
+        read -p "Please enter the domain: " domain
+        read -p "Please enter the A Records IP: " ARecord
         # If the masteripv4 slaveipv4 haven't been read before 
         if [ $IPv4 != "YES" ];then
-            read -p "Pleas enter the master IPv4: " masteripv4
-            read -p "Pleas enter the slave IPv4: " slaveipv4        
+            read -p "Please enter the master IPv4: " masteripv4
+            read -p "Please enter the slave IPv4: " slaveipv4        
         fi
         create-ipv4-zone $TYPE $domain $masteripv4 $slaveipv4 $ARecord
     ;;
     6)
-        read -p "Pleas enter the domain: " domain
-        read -p "Pleas enter the AAAA Records IP: " AAAARecord
+        read -p "Please enter the domain: " domain
+        read -p "Please enter the AAAA Records IP: " AAAARecord
         # If the masteripv6 slaveipv6 haven't been read before 
         if [ $IPv6 != "YES" ];then
-            read -p "Pleas enter the master IPv6: " masteripv6
-            read -p "Pleas enter the slave IPv6: " slaveipv6
+            read -p "Please enter the master IPv6: " masteripv6
+            read -p "Please enter the slave IPv6: " slaveipv6
         fi
         create-ipv6-zone $TYPE $domain $masterIPv6 $slaveIPv6 $AAAARecord 
     ;;
     46)
-        read -p "Pleas enter the domain: " domain
-        read -p "Pleas enter the A Records IP: " ARecord
-        read -p "Pleas enter the AAAA Records IP: " AAAARecord
+        read -p "Please enter the domain: " domain
+        read -p "Please enter the A Records IP: " ARecord
+        read -p "Please enter the AAAA Records IP: " AAAARecord
         if [ $IPv6 != "YES" ];then
-            read -p "Pleas enter the master IPv6: " masteripv6
-            read -p "Pleas enter the slave IPv6: " slaveipv6
+            read -p "Please enter the master IPv6: " masteripv6
+            read -p "Please enter the slave IPv6: " slaveipv6
         fi
         create-ipv4-zone $TYPE $domain $masteripv4 $slaveipv4 $ARecord
         create-ipv6-zone $TYPE $domain $masterIPv6 $slaveIPv6 $AAAARecord 
