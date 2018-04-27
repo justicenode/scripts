@@ -17,19 +17,10 @@ function package-install {
 
     # Install packages 
     # Automatically yes to installation and no to the pdns-mysql-backend configurator 
-    install_packages=$(expect -c "
-    spawn apt install mariadb-client mariadb-server pdns-server pdns-backend-mysql
-    expect \"Do you want to continue? \"
-    send \"y\r\"
-    expect \"Package configuration\"
-    sleep 1
-    send \(\"\{TAB\}\"\)
-    sleep 1
-    send \(\"\{Enter\}\"\)
-    expect eof
-    ")
-    echo "$install_packages"
-
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get -yq install mariadb-client mariadb-server pdns-server pdns-backend-mysql
+    export DEBIAN_FRONTEND=""
+    
     # Setup mariadb
     # Set root password
     SECURE_MYSQL=$(expect -c "
