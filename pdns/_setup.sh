@@ -200,7 +200,7 @@ while getopts ":i:4:6:b:t:z:" opt; do
     esac
 done
 # Install Package if requested 
-if [ $INSTALL = "YES" ]; then; package-install; fi
+if [ $INSTALL = "YES" ]; then package-install; fi
 # Configure PDNS with IPv4 and IPv6
 if [ $IPv4 = "YES" && $IPv6 = "YES" ]; then  
     create-configs 
@@ -216,9 +216,9 @@ then
    configure-servicev4 $type $slaveipv4; 
 fi 
 # Configure PDNS with IPv6
-if [ $IPv6 = "YES" ]; then; create-configs; configure-servicev6 $type $slaveipv6; fi 
+if [ $IPv6 = "YES" ]; then create-configs; configure-servicev6 $type $slaveipv6; fi 
 # Configure MySQL backend and creating DB
-if [ backend = "YES" ]; then; configure-backend $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
+if [ backend = "YES" ]; then configure-backend $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
 # Create zone
 case $zone in
     4)
