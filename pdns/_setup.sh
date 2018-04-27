@@ -177,7 +177,7 @@ IPv6="N/A"
 BACKEND="N/A"
 TYPE="N/A"
 
-while getopts ":i:4:6:b:t:z:" opt; do
+while getopts "i46bt:z:" opt; do
     case $opt in
         i) INSTALL="YES"
         ;;
@@ -208,7 +208,7 @@ done
 # Install Package if requested 
 if [ $INSTALL = "YES" ]; then package-install; fi
 # Configure PDNS with IPv4 and IPv6
-if [ $IPv4 = "YES" && $IPv6 = "YES" ]; then  
+if [ $IPv4 = "YES" ] && [ $IPv6 = "YES" ]; then  
     create-configs 
     configure-servicev4 $TYPE $slaveipv4 
     configure-servicev6 $TYPE $slaveipv6 
