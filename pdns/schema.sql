@@ -1,5 +1,5 @@
 CREATE DATABASE powerdns;
-GRANT ALL ON powerdns.* TO 'powerdns_user'@'localhost' IDENTIFIED BY 'powerdns_user_password';
+GRANT ALL ON powerdns.* TO 'user'@'localhost' IDENTIFIED BY 'password';
 FLUSH PRIVILEGES;
 USE powerdns;
 

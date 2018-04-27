@@ -104,10 +104,10 @@ function configure-servicev6 {
 function configure-BACKEND {
     echo "start configure-BACKEND"
     #Replace placeholder with DB credentials
-    sed -i -e "s/powerdns_user/$1/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
-    sed -i -e "s/powerdns_user_password/$2/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
-    sed -i -e "s/powerdns_user/$1/g" ./schema.sql
-    sed -i -e "s/powerdns_user_password/$2/g" ./schema.sql
+    sed -i -e "s/user/$1/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
+    sed -i -e "s/password/$2/g" /etc/powerdns/pdns.d/pdns.gmysql.conf
+    sed -i -e "s/user/$1/g" ./schema.sql
+    sed -i -e "s/password/$2/g" ./schema.sql
     # Create database
     mysql -u root < ./schema.sql
     echo "finish configure-BACKEND"
