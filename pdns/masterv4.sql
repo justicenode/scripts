@@ -8,4 +8,3 @@ INSERT INTO records (domain_id, name, type, content, ttl, prio, change_date, dis
 (@domain_id, 'example.com', 'A', 'placeA', 86400, 0, NULL, 0, NULL, 1),
 (@domain_id, 'ns0.example.com', 'A', 'placeNS0', 86400, 0, NULL, 0, NULL, 1),
 (@domain_id, 'ns1.example.com', 'A', 'placeNS1', 86400, 0, NULL, 0, NULL, 1);
-exit;
