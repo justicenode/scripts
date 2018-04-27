@@ -117,32 +117,32 @@ function configure-BACKEND {
 function create-ipv4-zone {
     echo "start create-ipv4-zone"
     # Create zone
-    if [ $1 = "master" ]
+    if [ $1 = "MASTER" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./masterv4.sql
-        sed -i -e "s/placeNS0.com/$3/g" ./masterv4.sql
-        sed -i -e "s/placeNS1.com/$4/g" ./masterv4.sql
+        sed -i -e "s/placeNS0/$3/g" ./masterv4.sql
+        sed -i -e "s/placeNS1/$4/g" ./masterv4.sql
         sed -i -e "s/placeA/$5/g" ./masterv4.sql
         # Create Zone
         mysql -u root < ./masterv4.sql
         echo "Mster zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./masterv4.sql
-        sed -i -e "s/$3/placeNS0.com/g" ./masterv4.sql
-        sed -i -e "s/$4/placeNS1.com/g" ./masterv4.sql
+        sed -i -e "s/$3/placeNS0/g" ./masterv4.sql
+        sed -i -e "s/$4/placeNS1/g" ./masterv4.sql
         sed -i -e "s/$5/placeA/g" ./masterv4.sql
-    elif [ $1 = "slave" ]
+    elif [ $1 = "SLAVE" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./slavev4.sql
-        sed -i -e "s/placeNS0.com/$3/g" ./slavev4.sql
+        sed -i -e "s/placeNS0/$3/g" ./slavev4.sql
         # Create Zone
         mysql -u root < ./slavev4.sql
         echo "Slave zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./slavev4.sql
-        sed -i -e "s/$3/placeNS0.com/g" ./slavev4.sql
+        sed -i -e "s/$3/placeNS0/g" ./slavev4.sql
     fi
     echo "finish create-ipv4-zone"
 }
@@ -150,32 +150,32 @@ function create-ipv4-zone {
 function create-ipv6-zone {
     echo "start create-ipv6-zone"
     # Create zone
-    if [ $1 = "master" ]
+    if [ $1 = "MASTER" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./masterv6.sql
-        sed -i -e "s/placeNS0v6.com/$3/g" ./masterv6.sql
-        sed -i -e "s/placeNS1v6.com/$4/g" ./masterv6.sql
+        sed -i -e "s/placeNS0v6/$3/g" ./masterv6.sql
+        sed -i -e "s/placeNS1v6/$4/g" ./masterv6.sql
         sed -i -e "s/placeAAAA/$5/g" ./masterv6.sql
         # Create Zone
         mysql -u root < ./masterv6.sql
         echo "Mster zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./masterv6.sql
-        sed -i -e "s/$3/placeNS0v6.com/g" ./masterv6.sql
-        sed -i -e "s/$4/placeNS1v6.com/g" ./masterv6.sql
+        sed -i -e "s/$3/placeNS0v6/g" ./masterv6.sql
+        sed -i -e "s/$4/placeNS1v6/g" ./masterv6.sql
         sed -i -e "s/$5/placeAAAA/g" ./masterv6.sql
-    elif [ $1 = "slave" ]
+    elif [ $1 = "SLAVE" ]
     then
         # Edit Zone
-        sed -i -e "s/example.com/$2/g" ./slavev6.sql
-        sed -i -e "s/placeNS0v6.com/$3/g" ./slavev6.sql
+        sed -i -e "s/example/$2/g" ./slavev6.sql
+        sed -i -e "s/placeNS0v6/$3/g" ./slavev6.sql
         # Create Zone
         mysql -u root < ./slavev6.sql
         echo "Slave zone IPv4 created for $2"
         # Reset Zone
         sed -i -e "s/$2/example.com/g" ./slavev6.sql
-        sed -i -e "s/$3/placeNS0v6.com/g" ./slavev6.sql
+        sed -i -e "s/$3/placeNS0v6/g" ./slavev6.sql
     fi
     echo "finish create-ipv6-zone"
 }
