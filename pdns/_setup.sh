@@ -66,11 +66,11 @@ function create-configs {
 function configure-servicev4 {
     while [ $1 !=  "0" ]
     do
-        if [ $1 == "MASTER" ]; then 
+        if [ $1 = "MASTER" ]; then 
             # Create master configuration for IPv4
             sed -i -e "s/1.1.1.1/$2/g" /etc/powerdns/pdns.conf
             sed -i -e "s/slave=yes/slave=no/g" /etc/powerdns/pdns.conf
-        elif [ $1 == "SLAVE" ]; then
+        elif [ $1 = "SLAVE" ]; then
             # Create slave configuration for IPv4
             sed -i -e "s/1.1.1.1/127.0.0.1/g" /etc/powerdns/pdns.conf
             sed -i -e "s/master=yes/master=no/g" /etc/powerdns/pdns.conf
@@ -84,11 +84,11 @@ function configure-servicev4 {
 function configure-servicev6 {
     while [ $1 !=  "0" ]
     do
-        if [ $1 == "MASTER" ]; then 
+        if [ $1 = "MASTER" ]; then 
             # Create master configuration for IPv6
             sed -i -e "s/2606:4700:4700::1111/$2/g" /etc/powerdns/pdns.conf
             sed -i -e "s/slave=yes/slave=no/g" /etc/powerdns/pdns.conf
-        elif [ $1 == "SLAVE" ]; then 
+        elif [ $1 = "SLAVE" ]; then 
             # Create slave configuration for IPv6
             sed -i -e "s/2606:4700:4700::1111/::1/g" /etc/powerdns/pdns.conf
             sed -i -e "s/master=yes/master=no/g" /etc/powerdns/pdns.conf
@@ -99,7 +99,7 @@ function configure-servicev6 {
     done
 }
 
-function configure-backend{
+function configure-backend {
     #Replace placeholder with DB credentials
     sed -i -e "s/powerdns_user/$1/g" /etc/powerdns/pdns.conf
     sed -i -e "s/powerdns_user_password/$2/g" /etc/powerdns/pdns.conf
@@ -111,7 +111,7 @@ function configure-backend{
 
 function create-ipv4-zone {
     # Create zone
-    if [ $1 == "master" ]
+    if [ $1 = "master" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./masterv4.sql
@@ -126,7 +126,7 @@ function create-ipv4-zone {
         sed -i -e "s/$3/placeNS0.com/g" ./masterv4.sql
         sed -i -e "s/$4/placeNS1.com/g" ./masterv4.sql
         sed -i -e "s/$5/placeA/g" ./masterv4.sql
-    elif [ $1 == "slave" ]
+    elif [ $1 = "slave" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./slavev4.sql
@@ -142,7 +142,7 @@ function create-ipv4-zone {
 
 function create-ipv6-zone {
     # Create zone
-    if [ $1 == "master" ]
+    if [ $1 = "master" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./masterv6.sql
@@ -157,7 +157,7 @@ function create-ipv6-zone {
         sed -i -e "s/$3/placeNS0v6.com/g" ./masterv6.sql
         sed -i -e "s/$4/placeNS1v6.com/g" ./masterv6.sql
         sed -i -e "s/$5/placeAAAA/g" ./masterv6.sql
-    elif [ $1 == "slave" ]
+    elif [ $1 = "slave" ]
     then
         # Edit Zone
         sed -i -e "s/example.com/$2/g" ./slavev6.sql
@@ -200,21 +200,25 @@ while getopts ":i:4:6:b:t:z:" opt; do
     esac
 done
 # Install Package if requested 
-if [ $INSTALL == "YES" ]; then; package-install; fi
+if [ $INSTALL = "YES" ]; then; package-install; fi
 # Configure PDNS with IPv4 and IPv6
-if [ $IPv4 == "YES" && $IPv6 == "YES" ]; then  
+if [ $IPv4 = "YES" && $IPv6 = "YES" ]; then  
     create-configs 
     configure-servicev4 $type $slaveipv4 
     configure-servicev6 $type $slaveipv6 
-    IPv4 == "NO"
-    IPv& == "NO"
+    IPv4 = "NO"
+    IPv6 = "NO"
 fi  
 # Configure PDNS with IPv4 
-if [ $IPv4 == "YES" ]; then; create-configs; configure-servicev4 $type $slaveipv4; fi 
+if [ $IPv4 = "YES" ]
+then
+   create-configs
+   configure-servicev4 $type $slaveipv4; 
+fi 
 # Configure PDNS with IPv6
-if [ $IPv6 == "YES" ]; then; create-configs; configure-servicev6 $type $slaveipv6; fi 
+if [ $IPv6 = "YES" ]; then; create-configs; configure-servicev6 $type $slaveipv6; fi 
 # Configure MySQL backend and creating DB
-if [ backend == "YES" ]; then; configure-backend $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
+if [ backend = "YES" ]; then; configure-backend $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
 # Create zone
 case $zone in
     4)
