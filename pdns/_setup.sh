@@ -211,7 +211,7 @@ if [ $IPv4 = "YES" ]; then create-configs;configure-servicev4 $TYPE $slaveipv4; 
 # Configure PDNS with IPv6
 if [ $IPv6 = "YES" ]; then create-configs; configure-servicev6 $TYPE $slaveipv6; fi
 # Configure MySQL BACKEND and creating DB
-if [ BACKEND = "YES" ]; then configure-BACKEND $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
+if [ $BACKEND = "YES" ]; then configure-BACKEND $MYSQL_DB_USER $MYSQL_DB_PASSWORD; fi
 # Create zone
 case $zone in
     4)
